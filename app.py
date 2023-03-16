@@ -18,16 +18,19 @@ def math_operation():
         text = request.form['inputStringBox']
         logging.info("text is entered")
         handler=Handlers()
+        #Extract numbers from string
         try: 
             numbers=handler.handle_input_string(text)
             logging.info("numbers are identified")
         except NegativeErrorException as e:
             flash('Error {} occured,Do not enter negative numbers'.format(e.message))
-            return redirect(url_for('home_page'))            
+            return redirect(url_for('home_page')) 
+        #Flash a message if only one number entered in the text           
         if len(numbers) == 1:
             flash('Enter minimum 2 numbers in the text')
             return redirect(url_for('home_page'))
         result = sum(numbers)
+        #just to show logging I have added logging here
         logging.info("Result obtained")
         return render_template('results.html',result=result)
     
